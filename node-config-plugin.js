@@ -2,6 +2,25 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 
+// schema for options object
+const OPTIONS_SCHEMA = {
+  type: 'object',
+  properties: {
+    env: {
+      type: 'boolean',
+    },
+    module: {
+      type: 'boolean',
+    },
+    constant: {
+      type: 'boolean',
+    },
+    constantName: {
+      type: 'string'
+    }
+  },
+};
+
 const PLUGIN = 'NodeConfigPlugin'
 const MODULE_NAME_REQUEST = 'config';
 const GENERATED = path.resolve(__dirname, '.config.generated.js');
@@ -25,7 +44,23 @@ module.exports = {
 };`;
 
 class NodeConfigPlugin {
+  constructor(options = {}) {
+    this.options = options;
+  }
+
+  processAsEnv(compiler) {
+    const env = Object.entries(config || {}).reduce((a, [k,v]) => {
+      a[`process.env.${k.toUpperCase()}`] = JSON.stringify(v);
+      return a;
+    }, {});
+  
+    new DefinePlugin(env).apply(compiler);
+  }
+
   apply(compiler) {
+    if (this.options.env) {
+      return this.processAsEnv(compiler);
+    }
     compiler.hooks.normalModuleFactory.tap(PLUGIN, nmf => {
       nmf.hooks.beforeResolve.tap(PLUGIN, result => {
         if (result.request === MODULE_NAME_REQUEST) {

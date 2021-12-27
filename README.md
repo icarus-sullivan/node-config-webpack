@@ -3,13 +3,13 @@ This plugin hooks into webpacks compilation to replace the config module with it
 
 ## Installation
 ```shell
-yarn add node-config-plugin
+yarn add node-config-webpack
 ```
 
 ## Usage
 _webpack.config.js_
 ```javascript
-const NodeConfigPlugin = require('node-config-plugin');
+const NodeConfigPlugin = require('node-config-webpack');
 
 module.exports = {
   entry: [
