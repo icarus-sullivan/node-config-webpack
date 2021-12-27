@@ -7,7 +7,9 @@ module.exports = {
     './src/index.js'
   ],
   plugins: [
-    new NodeConfigPlugin()
+    new NodeConfigPlugin({
+      env: true,
+    })
   ],
   output: {
     path: resolve(__dirname, 'build'),

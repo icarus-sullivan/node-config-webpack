@@ -1,3 +1,5 @@
-const config = require('config');
+// const config = require('config');
 
-console.log('config is', config);
+// console.log('config is', config);
+
+console.log('CONFIG', process.env.arn);
