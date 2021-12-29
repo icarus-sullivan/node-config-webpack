@@ -1,13 +1,13 @@
 const { resolve } = require('path');
 
-const NodeConfigPlugin = require("./node-config-plugin");
+const NodeConfigWebpack = require("./node-config-plugin");
 
 module.exports = {
   entry: [
     './src/index.js'
   ],
   plugins: [
-    new NodeConfigPlugin({
+    new NodeConfigWebpack({
       env: true,
     })
   ],

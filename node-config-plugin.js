@@ -2,11 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { DefinePlugin } = require('webpack');
 
-const PLUGIN = 'NodeConfigPlugin'
+const PLUGIN = 'NodeConfigWebpack'
 const MODULE_NAME_REQUEST = 'config';
 const GENERATED = path.resolve(__dirname, '.config.generated.js');
 
-class NodeConfigPlugin {
+class NodeConfigWebpack {
   constructor(options = {}) {
     this.options = options;
   }
@@ -74,4 +74,4 @@ class NodeConfigPlugin {
   }
 }
 
-module.exports = NodeConfigPlugin;
+module.exports = NodeConfigWebpack;
