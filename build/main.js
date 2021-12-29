@@ -1,1 +1,0 @@
-console.log("CONFIG",{name:"carl",id:"24E749C5-FD4C-4131-8F59-975EE31204F1"});
