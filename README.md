@@ -3,7 +3,7 @@ This plugin hooks into webpacks compilation to replace the [config](https://www.
 
 ## Installation
 ```shell
-yarn add node-config-webpack
+yarn add -D node-config-webpack
 ```
 
 ## Usage
