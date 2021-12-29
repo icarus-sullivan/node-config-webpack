@@ -1,6 +1,6 @@
 {
   "name": "node-config-webpack",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Plugin to support node-config usage within webpack",
   "main": "node-config-plugin.js",
   "repository": "git@github.com:icarus-sullivan/node-config-webpack.git",
@@ -13,6 +13,7 @@
     "build": "webpack-cli build"
   },
   "devDependencies": {
+    "webpack": "^5.65.0",
     "webpack-cli": "^4.9.1"
   },
   "dependencies": {

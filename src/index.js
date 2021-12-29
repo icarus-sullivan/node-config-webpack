@@ -1,5 +1,9 @@
-// const config = require('config');
+console.log('import option', require('config'));
 
-// console.log('config is', config);
+// console.log('env option', process.env.API);
 
-console.log('CONFIG', process.env.arn);
+// console.log('env named option', process.env.CONFIG.api);
+
+// console.log('constant option', CONFIG.api);
+
+// console.log('constant named option', customValue.api);

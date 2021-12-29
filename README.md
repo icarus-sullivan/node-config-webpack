@@ -23,10 +23,10 @@ module.exports = {
 }
 ```
 
-## Experimental Options
+## Options
 
-### Experiment Option - Env
-This option will inject your environment configuration into `process.env` automatically. NOTE: To use this option, config should all be root level items. Additionally all key values will be coerced into uppercase to match process.env convention.
+### Env
+This option will inject your configuration into `process.env` automatically. However, it expects a root-level list of key-pair items, similar to an .env file. Additionally all keys will be coerced into uppercase to match process.env convention.
 
 _webpack.config.js_
 ```javascript
@@ -49,8 +49,33 @@ _Example_:
 console.log('Configuration version is', process.env.VERSION);
 ```
 
-### Experiment Option - Constant
-This option will inject your environment configuration into a global `CONFIG` variable. No coercion will be done to the generated config.
+If you want the config added to `process.env` without any coercion you can use a string for the `env` option:
+
+_webpack.config.js_
+```javascript
+const NodeConfigWebpack = require('node-config-webpack');
+
+module.exports = {
+  entry: [
+    './src/index.js'
+  ],
+  plugins: [
+    new NodeConfigWebpack({
+      env: 'CONFIG',
+    })
+  ]
+}
+```
+
+You can then reference your config from `process.env.<your_key>`.
+
+_Example_:
+```javascript
+console.log('Configuration is', process.env.CONFIG);
+```
+
+### Constant
+This option will replace any reference to the variable `CONFIG` with the generated equivalent.
 
 _webpack.config.js_
 ```javascript
@@ -73,4 +98,25 @@ _Example_:
 console.log('Configuration version is', CONFIG.version);
 ```
 
-* Please note, experimental options are there for flexibility. Most projects won't need them as the 99% use case will be the typical usage.
+You can use a custom constant variable by passing a string as the `constant` value.
+
+_webpack.config.js_
+```javascript
+const NodeConfigWebpack = require('node-config-webpack');
+
+module.exports = {
+  entry: [
+    './src/index.js'
+  ],
+  plugins: [
+    new NodeConfigWebpack({
+      constant: 'customValue',
+    })
+  ]
+}
+```
+
+_Example_:
+```javascript
+console.log('Configuration version is', customValue.version);
+```

@@ -2,9 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const { DefinePlugin } = require('webpack');
 
-const PLUGIN = 'NodeConfigWebpack'
+const PLUGIN = 'NodeConfigWebpack';
 const MODULE_NAME_REQUEST = 'config';
 const GENERATED = path.resolve(__dirname, '.config.generated.js');
+
+const define = ({ definitions, compiler }) => new DefinePlugin(definitions).apply(compiler);
 
 class NodeConfigWebpack {
   constructor(options = {}) {
@@ -12,16 +14,33 @@ class NodeConfigWebpack {
   }
 
   processAsEnv(config, compiler) {
-    const env = Object.entries(config || {}).reduce((a, [k,v]) => {
-      a[`process.env.${k}`] = JSON.stringify(v);
-      return a;
-    }, {});
-  
-    new DefinePlugin(env).apply(compiler);
+    if (typeof this.options.env === 'string') {
+      const key = this.options.env;
+      return define({
+        definitions: { [`process.env.${key}`]: JSON.stringify(config) },
+        compiler,
+      });
+    }
+
+    // Build flat list of env variables
+    return define({
+      definitions: Object.entries(config || {}).reduce((a, [k, v]) => {
+        a[`process.env.${k}`] = JSON.stringify(v);
+        return a;
+      }, {}),
+      compiler,
+    });
   }
 
   processAsConstant(config, compiler) {
-    new DefinePlugin({ CONFIG: JSON.stringify(config) }).apply(compiler);
+    const key =
+      typeof this.options.constant === 'string'
+        ? this.options.constant
+        : 'CONFIG';
+    return define({
+      definitions: { [key]: JSON.stringify(config) },
+      compiler,
+    });
   }
 
   processDefault(config, compiler) {
@@ -44,8 +63,8 @@ class NodeConfigWebpack {
         has: (setting) => !!pick(config, setting),
       };`;
 
-    compiler.hooks.normalModuleFactory.tap(PLUGIN, nmf => {
-      nmf.hooks.beforeResolve.tap(PLUGIN, result => {
+    compiler.hooks.normalModuleFactory.tap(PLUGIN, (nmf) => {
+      nmf.hooks.beforeResolve.tap(PLUGIN, (result) => {
         if (result.request === MODULE_NAME_REQUEST) {
           fs.writeFileSync(GENERATED, TEMPLATE, 'utf8');
           result.request = GENERATED;
@@ -53,7 +72,7 @@ class NodeConfigWebpack {
       });
     });
 
-    // Clean up 
+    // Clean up
     compiler.hooks.done.tap(PLUGIN, () => {
       if (fs.existsSync(GENERATED)) {
         fs.unlinkSync(GENERATED);
