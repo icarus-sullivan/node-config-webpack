@@ -1,4 +1,4 @@
-# NodeConfigPlugin
+# NodeConfigWebpack
 This plugin hooks into webpacks compilation to replace the [config](https://www.npmjs.com/package/config) module with its environment equivalent. This eliminates the need to pull config in dynamically at runtime. 
 
 ## Installation
@@ -11,14 +11,14 @@ Your typical usage will replace the config module with an environment specific o
 
 _webpack.config.js_
 ```javascript
-const NodeConfigPlugin = require('node-config-webpack');
+const NodeConfigWebpack = require('node-config-webpack');
 
 module.exports = {
   entry: [
     './src/index.js'
   ],
   plugins: [
-    new NodeConfigPlugin()
+    new NodeConfigWebpack()
   ]
 }
 ```
@@ -30,14 +30,14 @@ This option will inject your environment configuration into `process.env` automa
 
 _webpack.config.js_
 ```javascript
-const NodeConfigPlugin = require('node-config-webpack');
+const NodeConfigWebpack = require('node-config-webpack');
 
 module.exports = {
   entry: [
     './src/index.js'
   ],
   plugins: [
-    new NodeConfigPlugin({
+    new NodeConfigWebpack({
       env: true,
     })
   ]
@@ -54,14 +54,14 @@ This option will inject your environment configuration into a global `CONFIG` va
 
 _webpack.config.js_
 ```javascript
-const NodeConfigPlugin = require('node-config-webpack');
+const NodeConfigWebpack = require('node-config-webpack');
 
 module.exports = {
   entry: [
     './src/index.js'
   ],
   plugins: [
-    new NodeConfigPlugin({
+    new NodeConfigWebpack({
       constant: true,
     })
   ]
