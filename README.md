@@ -139,16 +139,6 @@ module.exports = {
   externals: [nodeExternals({
     allowlist: ['config']
   })],
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        include: __dirname,
-        exclude: [/node_modules/],
-        loader: 'babel-loader',
-      },
-    ],
-  },
   plugins: [
     new NodeConfigWebpack(),
   ]
