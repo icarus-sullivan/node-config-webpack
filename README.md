@@ -120,3 +120,38 @@ _Example_:
 ```javascript
 console.log('Configuration version is', customValue.version);
 ```
+
+## Known Conflicts
+If you are using [webpack-node-externals](https://github.com/liady/webpack-node-externals) in your webpack configuration, add `config` to the allowlist. This will allow `node-config-webpack` to work as expected.
+
+_Example_:
+```javascript
+const slsw = require('serverless-webpack');
+const nodeExternals = require('webpack-node-externals');
+const NodeConfigWebpack = require('node-config-webpack');
+
+process.env.NODE_ENV = slsw.lib.serverless.service.provider.environment.NODE_ENV;
+
+module.exports = {
+  entry: slsw.lib.entries,
+  target: 'node',
+  mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
+  externals: [nodeExternals({
+    allowlist: ['config']
+  })],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: __dirname,
+        exclude: [/node_modules/],
+        loader: 'babel-loader',
+      },
+    ],
+  },
+  plugins: [
+    new NodeConfigWebpack(),
+  ]
+};
+```
+
