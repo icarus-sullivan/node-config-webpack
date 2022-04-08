@@ -73,11 +73,11 @@ class NodeConfigWebpack {
     });
 
     // Clean up
-    compiler.hooks.done.tap(PLUGIN, () => {
-      if (fs.existsSync(GENERATED)) {
-        fs.unlinkSync(GENERATED);
-      }
-    });
+    // compiler.hooks.done.tap(PLUGIN, () => {
+    //   if (fs.existsSync(GENERATED)) {
+    //     fs.unlinkSync(GENERATED);
+    //   }
+    // });
   }
 
   apply(compiler) {
