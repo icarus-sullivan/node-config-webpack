@@ -3,7 +3,10 @@
   "version": "1.0.9",
   "description": "Plugin to support node-config usage within webpack",
   "main": "node-config-plugin.js",
-  "repository": "git@github.com:icarus-sullivan/node-config-webpack.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/icarus-sullivan/node-config-webpack.git"
+  },
   "author": "Chris Sullivan <chrissullivan.dev@gmail.com>",
   "files": [
     "./node-config-plugin.js"
